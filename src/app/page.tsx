@@ -1,10 +1,11 @@
+import HeroSection from "@/components/HeroSection/HeroSection";
 import WebNav from "@/components/Navigation/WebNav";
-import Image from "next/image";
 
 export default function Home() {
   return (
-    <div>
+    <div className="flex flex-col gap-32">
       <WebNav />
+      <HeroSection />
     </div>
   );
 }
