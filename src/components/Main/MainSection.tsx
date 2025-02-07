@@ -14,7 +14,7 @@ export default function MainSection({
 }: MainSectionProps) {
   return (
     <section className="text-xl web:text-2xl flex flex-col items-center gap-3">
-      <h1 className="text-3xl web:text-4xl">{title}</h1>
+      <h1 className="text-xl web:text-4xl">{title}</h1>
       <div
         className="text-2xl w-3/6 font-bold text-center text-[#483124] rounded-lg bg-cover bg-center p-10"
         style={{ backgroundImage: "url('/mini-background.svg')" }}
