@@ -1,3 +1,4 @@
+import Calendar from "@/components/Callendar/Callendar";
 import HeroSection from "@/components/HeroSection/HeroSection";
 import MainSection from "@/components/Main/MainSection";
 import WebNav from "@/components/Navigation/WebNav";
@@ -8,6 +9,7 @@ export default function Home() {
       <WebNav />
       <HeroSection />
       <MainSection />
+      <Calendar />
     </div>
   );
 }
