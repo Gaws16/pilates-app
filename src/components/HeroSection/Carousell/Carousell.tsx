@@ -6,14 +6,17 @@ export default function Carousell() {
   return (
     <div className="relative flex flex-wrap justify-center gap-4">
       {images.map((image, index) => (
-        <div key={index} className="relative w-full sm:w-[400px] h-[300px]">
+        <div key={index} className="relative w-full sm:w-[400px] min-h-[300px]">
           <Image
             key={index}
             src={`/${image}`}
             alt="header"
-            objectFit="cover"
-            layout="fill"
+            objectFit="contain"
+            layout="intrinsic"
+            width={400}
+            height={300}
             priority
+            className="block"
           />
         </div>
       ))}
