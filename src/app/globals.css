@@ -8,6 +8,11 @@ body {
   background-color: #fffef2;
   color: #483124;
 }
+@layer components {
+  .hover-effect {
+    @apply cursor-default hover:text-[#483124] transition-transform duration-300 transform hover:scale-105;
+  }
+}
 
 @layer base {
   :root {

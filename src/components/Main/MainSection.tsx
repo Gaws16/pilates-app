@@ -24,7 +24,7 @@ export default function MainSection({
       <div className="flex items-center gap-3 w-full content-center justify-center">
         <button
           style={{ backgroundImage: "url('/mini-background.svg')" }}
-          className=" h-full bg-cover bg-center w-2/6 web:w-2/5 p-3 font-semibold"
+          className=" h-full bg-cover bg-center w-2/6 web:w-2/5 p-3 font-semibold hover-effect"
           onClick={() => console.log("Button clicked")}
         >
           {buttonText}

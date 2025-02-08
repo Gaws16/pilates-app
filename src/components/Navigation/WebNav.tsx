@@ -15,21 +15,11 @@ export default function WebNav() {
         />
       </div>
       <ul className="text-2xl flex items-center justify-center gap-16 border-b-4 border-[#a17d60] m-0 relative max-h-[40px] text-[#a17d60] ">
-        <li className="cursor-default hover:text-[#483124] transition-transform duration-300 transform hover:scale-105">
-          Начало
-        </li>
-        <li className="cursor-default hover:text-[#483124] transition-transform duration-300 transform hover:scale-105">
-          График
-        </li>
-        <li className="cursor-default hover:text-[#483124] transition-transform duration-300 transform hover:scale-105">
-          Цени
-        </li>
-        <li className="cursor-default hover:text-[#483124] transition-transform duration-300 transform hover:scale-105">
-          Правила
-        </li>
-        <li className="cursor-default hover:text-[#483124] transition-transform duration-300 transform hover:scale-105">
-          Галерия
-        </li>
+        <li className="hover-effect">Начало</li>
+        <li className="hover-effect">График</li>
+        <li className="hover-effect">Цени</li>
+        <li className="hover-effect">Правила</li>
+        <li className="hover-effect">Галерия</li>
       </ul>
     </nav>
   );
