@@ -65,6 +65,7 @@ export default {
         phone: "320px", // Small devices (phones)
         tablet: "768px", // Medium devices (tablets)
         web: "1024px", // Large devices (desktops)
+        wide: "1400px",
       },
     },
   },
