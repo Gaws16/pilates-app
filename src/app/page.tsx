@@ -3,6 +3,8 @@ import Gallery from "@/components/Gallery/Gallery";
 import HeroSection from "@/components/HeroSection/HeroSection";
 import MainSection from "@/components/Main/MainSection";
 import WebNav from "@/components/Navigation/WebNav";
+import Princing from "@/components/Pricing/Pricing";
+import Rules from "@/components/Rules/Rules";
 
 export default function Home() {
   return (
@@ -11,7 +13,9 @@ export default function Home() {
       <HeroSection />
       <MainSection />
       <Calendar />
-      <Gallery />
+      <Princing />
+      <Rules />
+      <Gallery/>
     </div>
   );
 }
