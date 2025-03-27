@@ -56,7 +56,7 @@ export default function Gallery() {
                 />
               </div>
             </DialogTrigger>
-            <DialogContent className="bg-black/90 flex flex-col items-center justify-center p-6 max-w-[90vw] max-h-[90vh]">
+            <DialogContent className="bg-black/90 flex flex-col items-center justify-center p-6 max-w-[90vw] h-[90vh] md:">
               <DialogTitle className="text-white text-2xl mb-2">
                 Image {currentIndex !== null ? currentIndex + 1 : ""}
               </DialogTitle>
