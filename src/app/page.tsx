@@ -1,4 +1,5 @@
 import Calendar from "@/components/Callendar/Callendar";
+import Footer from "@/components/Footer/Footer";
 import Gallery from "@/components/Gallery/Gallery";
 import HeroSection from "@/components/HeroSection/HeroSection";
 import MainSection from "@/components/Main/MainSection";
@@ -15,7 +16,8 @@ export default function Home() {
       <Calendar />
       <Princing />
       <Rules />
-      <Gallery/>
+      <Gallery />
+      <Footer />
     </div>
   );
 }
