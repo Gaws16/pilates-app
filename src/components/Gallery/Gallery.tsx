@@ -24,16 +24,30 @@ const images = [
 
 export default function Gallery() {
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
+  const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
+  const [modalImageLoaded, setModalImageLoaded] = useState(false);
 
-  const prevImage = () =>
+  const handleImageLoad = (index: number) => {
+    setLoadedImages((prev) => ({ ...prev, [index]: true }));
+  };
+
+  const handleModalImageLoad = () => {
+    setModalImageLoaded(true);
+  };
+
+  const prevImage = () => {
+    setModalImageLoaded(false);
     setCurrentIndex((prev) =>
       prev !== null && prev > 0 ? prev - 1 : images.length - 1
     );
+  };
 
-  const nextImage = () =>
+  const nextImage = () => {
+    setModalImageLoaded(false);
     setCurrentIndex((prev) =>
       prev !== null && prev < images.length - 1 ? prev + 1 : 0
     );
+  };
 
   return (
     <>
@@ -43,16 +57,27 @@ export default function Gallery() {
           <Dialog
             key={index}
             open={currentIndex === index}
-            onOpenChange={(isOpen) => !isOpen && setCurrentIndex(null)}
+            onOpenChange={(isOpen) => {
+              if (!isOpen) {
+                setCurrentIndex(null);
+                setModalImageLoaded(false);
+              }
+            }}
           >
             <DialogTrigger asChild>
-              <div className="w-full  h-60 relative overflow-hidden rounded-md">
+              <div className="w-full h-60 relative overflow-hidden rounded-md bg-gray-200">
+                {!loadedImages[index] && (
+                  <div className="absolute inset-0 animate-pulse bg-gray-300 rounded-md" />
+                )}
                 <Image
                   src={src}
                   fill
                   alt={`Thumbnail ${index + 1}`}
-                  className="object-cover"
+                  className={`object-cover transition-opacity duration-300 ${
+                    loadedImages[index] ? "opacity-100" : "opacity-0"
+                  }`}
                   onClick={() => setCurrentIndex(index)}
+                  onLoad={() => handleImageLoad(index)}
                 />
               </div>
             </DialogTrigger>
@@ -74,7 +99,10 @@ export default function Gallery() {
                   height={600}
                   priority
                   quality={100}
-                  className="rounded-md object-contain max-w-full max-h-[80vh]"
+                  className={`rounded-md object-contain max-w-full max-h-[80vh] transition-opacity duration-300 ${
+                    modalImageLoaded ? "opacity-100" : "opacity-0"
+                  }`}
+                  onLoad={handleModalImageLoad}
                 />
               </motion.div>
               <div className="absolute left-4 top-1/2 -translate-y-1/2">
