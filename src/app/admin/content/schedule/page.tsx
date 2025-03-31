@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 
 interface ScheduleItem {
   id: string;
@@ -9,11 +9,27 @@ interface ScheduleItem {
   class_name: string;
 }
 
+const days = ["Понеделник", "Вторник", "Сряда", "Четвъртък", "Петък"];
+
+const timeSlots = [
+  "09:00",
+  "10:00",
+  "11:00",
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+  "18:00",
+  "19:00",
+];
+
 export default function ScheduleManagement() {
-  const [scheduleItems, setScheduleItems] = useState<ScheduleItem[]>([]);
+  const [schedule, setSchedule] = useState<ScheduleItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [newItem, setNewItem] = useState({
+  const [newClass, setNewClass] = useState({
     day_of_week: "",
     time_slot: "",
     class_name: "",
@@ -29,10 +45,10 @@ export default function ScheduleManagement() {
       const { data, error } = await supabase
         .from("schedule")
         .select("*")
-        .order("day_of_week", { ascending: true });
+        .order("time_slot", { ascending: true });
 
       if (error) throw error;
-      setScheduleItems(data || []);
+      setSchedule(data || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -40,77 +56,81 @@ export default function ScheduleManagement() {
     }
   };
 
-  const handleAddItem = async (e: React.FormEvent) => {
+  const handleAddClass = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const { error } = await supabase.from("schedule").insert([newItem]);
+      const { error } = await supabase.from("schedule").insert([newClass]);
+
       if (error) throw error;
 
       fetchSchedule();
-      setNewItem({ day_of_week: "", time_slot: "", class_name: "" });
+      setNewClass({ day_of_week: "", time_slot: "", class_name: "" });
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     }
   };
 
-  const handleDeleteItem = async (id: string) => {
+  const handleDeleteClass = async (id: string) => {
     try {
       const { error } = await supabase.from("schedule").delete().eq("id", id);
       if (error) throw error;
 
-      setScheduleItems(scheduleItems.filter((item) => item.id !== id));
+      setSchedule(schedule.filter((item) => item.id !== id));
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     }
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 p-8">
       <h1 className="text-3xl font-bold text-[#a17d60]">Schedule Management</h1>
 
       {error && (
         <div className="p-4 text-red-700 bg-red-100 rounded-md">{error}</div>
       )}
 
-      <form onSubmit={handleAddItem} className="space-y-4">
+      <form onSubmit={handleAddClass} className="space-y-4">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Day of Week
+              Day
             </label>
             <select
-              value={newItem.day_of_week}
+              value={newClass.day_of_week}
               onChange={(e) =>
-                setNewItem({ ...newItem, day_of_week: e.target.value })
+                setNewClass({ ...newClass, day_of_week: e.target.value })
               }
               required
               className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-[#a17d60] focus:border-[#a17d60]"
             >
               <option value="">Select day</option>
-              <option value="Monday">Monday</option>
-              <option value="Tuesday">Tuesday</option>
-              <option value="Wednesday">Wednesday</option>
-              <option value="Thursday">Thursday</option>
-              <option value="Friday">Friday</option>
-              <option value="Saturday">Saturday</option>
-              <option value="Sunday">Sunday</option>
+              {days.map((day) => (
+                <option key={day} value={day}>
+                  {day}
+                </option>
+              ))}
             </select>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Time Slot
+              Time
             </label>
-            <input
-              type="text"
-              value={newItem.time_slot}
+            <select
+              value={newClass.time_slot}
               onChange={(e) =>
-                setNewItem({ ...newItem, time_slot: e.target.value })
+                setNewClass({ ...newClass, time_slot: e.target.value })
               }
               required
-              placeholder="e.g., 09:00 - 10:00"
               className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-[#a17d60] focus:border-[#a17d60]"
-            />
+            >
+              <option value="">Select time</option>
+              {timeSlots.map((time) => (
+                <option key={time} value={time}>
+                  {time}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div>
@@ -119,9 +139,9 @@ export default function ScheduleManagement() {
             </label>
             <input
               type="text"
-              value={newItem.class_name}
+              value={newClass.class_name}
               onChange={(e) =>
-                setNewItem({ ...newItem, class_name: e.target.value })
+                setNewClass({ ...newClass, class_name: e.target.value })
               }
               required
               placeholder="e.g., Pilates Beginner"
@@ -134,7 +154,7 @@ export default function ScheduleManagement() {
           type="submit"
           className="px-4 py-2 text-white bg-[#a17d60] rounded-md hover:bg-[#8a6b52]"
         >
-          Add Schedule Item
+          Add Class
         </button>
       </form>
 
@@ -160,7 +180,7 @@ export default function ScheduleManagement() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {scheduleItems.map((item) => (
+              {schedule.map((item) => (
                 <tr key={item.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {item.day_of_week}
@@ -173,7 +193,7 @@ export default function ScheduleManagement() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button
-                      onClick={() => handleDeleteItem(item.id)}
+                      onClick={() => handleDeleteClass(item.id)}
                       className="text-red-600 hover:text-red-900"
                     >
                       Delete

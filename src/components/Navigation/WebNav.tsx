@@ -13,16 +13,31 @@ interface NavItem {
 
 export default function WebNav() {
   const [navItems, setNavItems] = useState<NavItem[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchNavItems = async () => {
-      const { data, error } = await supabase
-        .from("navigation")
-        .select("*")
-        .order("order", { ascending: true });
+      try {
+        const { data, error } = await supabase
+          .from("navigation")
+          .select("*")
+          .order("order", { ascending: true });
 
-      if (!error && data) {
-        setNavItems(data);
+        if (error) throw error;
+
+        if (data) {
+          setNavItems(data);
+        }
+      } catch (err) {
+        console.error("Error fetching navigation:", err);
+        // Fallback to static navigation if database fetch fails
+        setNavItems([
+          { id: "1", title: "Начало", href: "/", order: 1 },
+          { id: "2", title: "График", href: "/schedule", order: 2 },
+          { id: "3", title: "Цени", href: "/prices", order: 3 },
+          { id: "4", title: "Правила", href: "/rules", order: 4 },
+          { id: "5", title: "Галерия", href: "/gallery", order: 5 },
+        ]);
       }
     };
 
