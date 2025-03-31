@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import Title from "../Common/Title";
 import RulesContainer from "./RulesContainer";
-
+import RuleItem from "./RuleItem";
+import Image from "next/image";
 interface Rule {
   id: string;
   content: string;
@@ -29,18 +30,22 @@ export default function Rules() {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h2 className="text-3xl font-bold text-[#a17d60] mb-8">Studio Rules</h2>
+    <>
+      <Title  title="Правила" />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col gap-10">
+      <Image
+        src="/rules-pic.svg"
+        alt="rules"
+        width={1000}
+        height={600}
+        className="mt-5"
+        />
       <div className="space-y-4">
         {rules.map((rule) => (
-          <div
-            key={rule.id}
-            className="p-4 bg-white rounded-lg shadow-md border border-gray-200"
-          >
-            <p className="text-gray-800">{rule.content}</p>
-          </div>
+          <RuleItem key={rule.id} rule={rule.content} />
         ))}
       </div>
     </div>
+        </>
   );
 }

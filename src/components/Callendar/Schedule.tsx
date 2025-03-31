@@ -55,7 +55,7 @@ const Schedule: React.FC = () => {
   };
 
   return (
-    <div className="overflow-x-auto p-4">
+    <div className=" p-4">
       <table className="border-collapse min-w-full">
         <thead className="bg-[#a17d60] text-white">
           <tr>
@@ -67,7 +67,7 @@ const Schedule: React.FC = () => {
               >
                 {day}
                 {index === days.length - 1 && (
-                  <div className="absolute bottom-20 -right-7">
+                  <div className="absolute bottom-10 -right-6">
                     <Image
                       src="/bear.svg"
                       alt="Bear"
