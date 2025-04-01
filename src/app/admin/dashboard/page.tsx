@@ -45,6 +45,11 @@ export default function Dashboard() {
           description="Manage image gallery"
           href="/admin/content/gallery"
         />
+        <DashboardCard
+          title="Bookings"
+          description="Manage client bookings"
+          href="/admin/content/bookings"
+        />
       </div>
     </div>
   );
