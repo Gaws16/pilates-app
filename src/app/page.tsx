@@ -11,12 +11,22 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-32">
       <WebNav />
-      <HeroSection />
+      <section id="home">
+        <HeroSection />
+      </section>
       <MainSection />
-      <Calendar />
-      <Princing />
-      <Rules />
-      <Gallery />
+      <section id="calendar">
+        <Calendar />
+      </section>
+      <section id="pricing">
+        <Princing />
+      </section>
+      <section id="rules">
+        <Rules />
+      </section>
+      <section id="gallery">
+        <Gallery />
+      </section>
       <Footer />
     </div>
   );
