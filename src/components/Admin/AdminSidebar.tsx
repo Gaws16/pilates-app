@@ -11,6 +11,7 @@ import {
   DollarSign,
   ScrollText,
   FileText,
+  BookOpen,
 } from "lucide-react";
 
 export default function AdminSidebar() {
@@ -37,6 +38,11 @@ export default function AdminSidebar() {
       href: "/admin/content/schedule",
       label: "Schedule",
       icon: <Calendar className="w-5 h-5" />,
+    },
+    {
+      href: "/admin/content/bookings",
+      label: "Bookings",
+      icon: <BookOpen className="w-5 h-5" />,
     },
     {
       href: "/admin/content/prices",

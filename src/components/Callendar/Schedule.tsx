@@ -30,7 +30,6 @@ const timeSlots = [
 
 const Schedule: React.FC = () => {
   const [schedule, setSchedule] = useState<ScheduleItem[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSchedule = async () => {
@@ -42,7 +41,6 @@ const Schedule: React.FC = () => {
       if (!error && data) {
         setSchedule(data);
       }
-      setLoading(false);
     };
 
     fetchSchedule();
@@ -55,7 +53,7 @@ const Schedule: React.FC = () => {
   };
 
   return (
-    <div className=" p-4">
+    <div className="p-4">
       <table className="border-collapse min-w-full">
         <thead className="bg-[#a17d60] text-white">
           <tr>

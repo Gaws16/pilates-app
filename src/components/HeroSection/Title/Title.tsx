@@ -1,7 +1,5 @@
-import Image from "next/image";
-
 export default function Title({
-  text = "Силата в нежността, грацията в движението.",
+  text = "Силата в нечността, грацията в движението.",
 }: {
   text?: string;
 }) {

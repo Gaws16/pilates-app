@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import ImageUploader from "@/components/Admin/ImageUploader";
 import Image from "next/image";
@@ -18,11 +18,7 @@ export default function GalleryManagement() {
   const [error, setError] = useState<string | null>(null);
   const supabase = createClientComponentClient<Database>();
 
-  useEffect(() => {
-    fetchImages();
-  }, []);
-
-  const fetchImages = async () => {
+  const fetchImages = useCallback(async () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
@@ -37,7 +33,11 @@ export default function GalleryManagement() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [supabase]);
+
+  useEffect(() => {
+    fetchImages();
+  }, [fetchImages]);
 
   const handleImageUpload = () => {
     fetchImages();

@@ -85,16 +85,12 @@ export default function MainSectionPage() {
     }
   };
 
-  if (loading) {
+  if (loading || !user) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="w-8 h-8 animate-spin" />
       </div>
     );
-  }
-
-  if (!user) {
-    return null;
   }
 
   return (
@@ -115,65 +111,71 @@ export default function MainSectionPage() {
 
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-semibold mb-4">Main Section Content</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Title
-            </label>
-            <input
-              type="text"
-              value={mainSectionContent?.title || ""}
-              onChange={(e) =>
-                setMainSectionContent((prev) =>
-                  prev ? { ...prev, title: e.target.value } : null
-                )
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#a17d60] focus:border-[#a17d60]"
-              required
-            />
+        {!mainSectionContent ? (
+          <div className="flex justify-center p-4">
+            <Loader2 className="w-6 h-6 animate-spin" />
           </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Title
+              </label>
+              <input
+                type="text"
+                value={mainSectionContent.title}
+                onChange={(e) =>
+                  setMainSectionContent((prev) =>
+                    prev ? { ...prev, title: e.target.value } : null
+                  )
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#a17d60] focus:border-[#a17d60]"
+                required
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Description
-            </label>
-            <textarea
-              value={mainSectionContent?.description || ""}
-              onChange={(e) =>
-                setMainSectionContent((prev) =>
-                  prev ? { ...prev, description: e.target.value } : null
-                )
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#a17d60] focus:border-[#a17d60] h-32"
-              required
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Description
+              </label>
+              <textarea
+                value={mainSectionContent.description}
+                onChange={(e) =>
+                  setMainSectionContent((prev) =>
+                    prev ? { ...prev, description: e.target.value } : null
+                  )
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#a17d60] focus:border-[#a17d60] h-32"
+                required
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Button Text
-            </label>
-            <input
-              type="text"
-              value={mainSectionContent?.button_text || ""}
-              onChange={(e) =>
-                setMainSectionContent((prev) =>
-                  prev ? { ...prev, button_text: e.target.value } : null
-                )
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#a17d60] focus:border-[#a17d60]"
-              required
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Button Text
+              </label>
+              <input
+                type="text"
+                value={mainSectionContent.button_text}
+                onChange={(e) =>
+                  setMainSectionContent((prev) =>
+                    prev ? { ...prev, button_text: e.target.value } : null
+                  )
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#a17d60] focus:border-[#a17d60]"
+                required
+              />
+            </div>
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full px-4 py-2 bg-[#a17d60] text-white rounded-md hover:bg-[#8a6b52] transition-colors disabled:opacity-50"
-          >
-            {isSubmitting ? "Updating..." : "Update Main Section"}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full px-4 py-2 bg-[#a17d60] text-white rounded-md hover:bg-[#8a6b52] transition-colors disabled:opacity-50"
+            >
+              {isSubmitting ? "Updating..." : "Update Main Section"}
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

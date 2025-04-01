@@ -13,17 +13,14 @@ interface NavItem {
 
 export default function WebNav() {
   const [navItems, setNavItems] = useState<NavItem[]>([]);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchNavItems = async () => {
       try {
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from("navigation")
           .select("*")
           .order("order", { ascending: true });
-
-        if (error) throw error;
 
         if (data) {
           setNavItems(data);
