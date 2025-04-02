@@ -51,7 +51,13 @@ export default function Pricing() {
             ))
           )}
         </div>
-        <Image src="/price-pic.svg" alt="woman" width={256} height={256} />
+        <Image
+          src="/price-pic.svg"
+          alt="woman"
+          width={256}
+          height={256}
+          className=" md:block hidden"
+        />
       </div>
     </>
   );

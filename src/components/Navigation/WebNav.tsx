@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import Logo from "../Logo/Logo";
 
 interface NavItem {
@@ -8,6 +9,8 @@ interface NavItem {
 }
 
 export default function WebNav() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const navItems: NavItem[] = [
     { id: "1", title: "Начало", href: "#home" },
     { id: "2", title: "График", href: "#calendar" },
@@ -28,9 +31,11 @@ export default function WebNav() {
   };
 
   return (
-    <nav className="flex justify-center items-center p-10 gap-96 tablet:px-12 tablet:py-0">
+    <nav className="flex justify-between items-center p-10 tablet:px-12 tablet:py-0">
       <Logo />
-      <ul className="text-2xl flex items-center justify-center gap-16 border-b-4 border-[#a17d60] m-0 relative max-h-[40px] text-[#a17d60]">
+
+      {/* Desktop Navigation */}
+      <ul className="hidden lg:flex items-center justify-center gap-16 border-b-4 border-[#a17d60] m-0 relative max-h-[40px] text-[#a17d60] text-2xl">
         {navItems.map((item) => (
           <li key={item.id} className="hover-effect">
             <a href={item.href} onClick={(e) => scrollToSection(e, item.href)}>
@@ -39,6 +44,35 @@ export default function WebNav() {
           </li>
         ))}
       </ul>
+
+      {/* Mobile Menu Button */}
+      <button
+        className="lg:hidden text-[#a17d60] text-4xl"
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+      >
+        {mobileMenuOpen ? "✕" : "☰"}
+      </button>
+
+      {/* Mobile Navigation */}
+      {mobileMenuOpen && (
+        <div className="absolute top-20 left-0 right-0 bg-white p-5 lg:hidden z-10">
+          <ul className="flex flex-col items-center gap-4 text-[#a17d60] text-2xl">
+            {navItems.map((item) => (
+              <li key={item.id} className="hover-effect">
+                <a
+                  href={item.href}
+                  onClick={(e) => {
+                    scrollToSection(e, item.href);
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  {item.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </nav>
   );
 }

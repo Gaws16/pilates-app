@@ -29,19 +29,28 @@ export default function Schedule() {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h2 className="text-3xl font-bold text-[#a17d60] mb-8">Class Schedule</h2>
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
+        <table
+          className="divide-y divide-gray-200 mx-auto"
+          style={{ width: "500px" }}
+        >
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th
+                className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                style={{ width: "80px" }}
+              >
                 Day
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th
+                className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                style={{ width: "80px" }}
+              >
                 Time
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Class
               </th>
             </tr>
@@ -49,13 +58,19 @@ export default function Schedule() {
           <tbody className="bg-white divide-y divide-gray-200">
             {schedule.map((item) => (
               <tr key={item.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td
+                  className="px-3 py-2 text-sm text-gray-900"
+                  style={{ width: "80px" }}
+                >
                   {item.day_of_week}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td
+                  className="px-3 py-2 text-sm text-gray-900"
+                  style={{ width: "80px" }}
+                >
                   {item.time_slot}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td className="px-3 py-2 text-sm text-gray-900">
                   {item.class_name}
                 </td>
               </tr>
