@@ -85,7 +85,9 @@ export default function AdminSidebar() {
         } z-40`}
       >
         <div className="p-4 mt-12 md:mt-0">
-          <h1 className="text-xl font-bold text-[#a17d60]">Admin Panel</h1>
+          <h1 className="hidden md:block text-xl font-bold text-[#a17d60]">
+            Admin Panel
+          </h1>
         </div>
         <nav className="mt-4 overflow-y-auto">
           {menuItems.map((item) => (
