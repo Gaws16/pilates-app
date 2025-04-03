@@ -45,9 +45,9 @@ export default function MainSection() {
 
   return (
     <section className="text-xl web:text-2xl flex flex-col items-center gap-3">
-      <h1 className="text-xl web:text-4xl">{content.title}</h1>
+      <h1 className="text-3xl web:text-4xl">{content.title}</h1>
       <div
-        className="text-2xl w-3/6 font-bold text-center text-[#483124] rounded-lg bg-cover bg-center p-10"
+        className="text-xl w-3/6 font-bold text-center text-[#483124] rounded-lg bg-cover bg-center p-10"
         style={{ backgroundImage: "url('/mini-background.svg')" }}
       >
         <p className="w-full h-full font-semibold">{content.description}</p>
@@ -62,7 +62,9 @@ export default function MainSection() {
           onMouseEnter={() => setIsButtonHovered(true)}
           onMouseLeave={() => setIsButtonHovered(false)}
         >
-          <span className="relative z-10">{content.button_text}</span>
+          <span className="relative z-10 text-sm sm:text-base md:text-lg web:text-2xl">
+            {content.button_text}
+          </span>
           <span className="absolute inset-0 bg-[#a17d60] opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
           <span className="absolute -inset-full top-0 block w-1/2 h-full z-5 transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-40 group-hover:animate-shine"></span>
         </button>
@@ -71,7 +73,7 @@ export default function MainSection() {
           width={100}
           height={100}
           alt="small-girl"
-          className={`transition-transform duration-300 ${
+          className={`hidden md:block transition-transform duration-300 ${
             isButtonHovered ? "scale-110" : ""
           }`}
         />

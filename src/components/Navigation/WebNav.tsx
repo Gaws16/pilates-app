@@ -31,7 +31,7 @@ export default function WebNav() {
   };
 
   return (
-    <nav className="flex justify-between items-center p-10 tablet:px-12 tablet:py-0">
+    <nav className="flex justify-between items-center p-6 mx-4 tablet:px-12 tablet:py-0">
       <Logo />
 
       {/* Desktop Navigation */}
@@ -56,7 +56,7 @@ export default function WebNav() {
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-white p-5 lg:hidden z-50 flex flex-col">
-          <div className="flex justify-end mb-6">
+          <div className="flex justify-end mb-6 px-4">
             <button 
               className="text-[#a17d60] text-4xl"
               onClick={() => setMobileMenuOpen(false)}
@@ -64,7 +64,7 @@ export default function WebNav() {
               ✕
             </button>
           </div>
-          <ul className="flex flex-col items-center gap-8 text-[#a17d60] text-2xl flex-grow justify-center">
+          <ul className="flex flex-col items-center gap-8 text-[#a17d60] text-2xl flex-grow justify-center px-6">
             {navItems.map((item) => (
               <li key={item.id} className="hover-effect">
                 <a

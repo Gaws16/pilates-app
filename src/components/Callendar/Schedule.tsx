@@ -53,61 +53,63 @@ const Schedule: React.FC = () => {
   };
 
   return (
-    <div className="p-4">
-      <table className="border-collapse min-w-full">
-        <thead className="bg-[#a17d60] text-white">
-          <tr>
-            <th className="border border-black p-4 w-24">Time</th>
-            {days.map((day, index) => (
-              <th
-                key={index}
-                className="border border-black p-4 relative min-w-[200px]"
-              >
-                {day}
-                {index === days.length - 1 && (
-                  <div className="absolute bottom-10 -right-6">
-                    <Image
-                      src="/bear.svg"
-                      alt="Bear"
-                      width={80}
-                      height={80}
-                      quality={100}
-                    />
-                  </div>
-                )}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {timeSlots.map((time, rowIndex) => (
-            <tr key={rowIndex}>
-              <td className="border border-black p-4 text-center font-semibold">
-                {time}
-              </td>
-              {days.map((day, colIndex) => {
-                const classItem = getClassForTimeSlot(day, time);
-                return (
-                  <td
-                    key={colIndex}
-                    className={`border border-black p-4 text-center ${
-                      classItem ? "bg-[#a17d60]/10" : ""
-                    }`}
-                  >
-                    {classItem && (
-                      <div className="flex flex-col gap-1">
-                        <span className="font-semibold">
-                          {classItem.class_name}
-                        </span>
-                      </div>
-                    )}
-                  </td>
-                );
-              })}
+    <div className="p-3 max-w-full">
+      <div className="min-w-[650px] max-w-[1600px] mx-auto">
+        <table className="w-full border-collapse">
+          <thead className="bg-[#a17d60] text-white">
+            <tr>
+              <th className="border border-black p-2 md:p-3 w-20">Time</th>
+              {days.map((day, index) => (
+                <th
+                  key={index}
+                  className="border border-black p-2 md:p-3 relative text-sm md:text-base"
+                >
+                  {day}
+                  {index === days.length - 1 && (
+                    <div className="absolute bottom-7 -right-5 hidden md:block">
+                      <Image
+                        src="/bear.svg"
+                        alt="Bear"
+                        width={65}
+                        height={65}
+                        quality={100}
+                      />
+                    </div>
+                  )}
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {timeSlots.map((time, rowIndex) => (
+              <tr key={rowIndex}>
+                <td className="border border-black p-2 md:p-3 text-center font-semibold text-sm">
+                  {time}
+                </td>
+                {days.map((day, colIndex) => {
+                  const classItem = getClassForTimeSlot(day, time);
+                  return (
+                    <td
+                      key={colIndex}
+                      className={`border border-black p-2 md:p-3 text-center ${
+                        classItem ? "bg-[#a17d60]/10" : ""
+                      }`}
+                    >
+                      {classItem && (
+                        <div className="flex flex-col">
+                          <span className="font-semibold text-xs md:text-sm">
+                            {classItem.class_name}
+                          </span>
+                        </div>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

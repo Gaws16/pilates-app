@@ -32,12 +32,15 @@ export default function Pricing() {
   }, []);
 
   return (
-    <>
+    <div className="px-5 md:px-8">
       <Title title="Цени" />
-      <div className="flex justify-center gap-24">
+      <div className="flex flex-col md:flex-row justify-center items-center md:gap-12 lg:gap-24 mx-auto max-w-7xl">
         <div
           style={{ backgroundImage: "url('/price-back.svg')" }}
-          className="w-[735px] h-[424px] bg-no-repeat bg-center flex flex-col justify-center gap-4 items-center text-3xl font-semibold"
+          className="w-full md:w-[600px] lg:w-[735px] bg-no-repeat bg-contain bg-center 
+                    flex flex-col justify-center gap-3 md:gap-4 items-center 
+                    text-xl md:text-2xl lg:text-3xl font-semibold
+                    p-8 md:p-10 min-h-[250px] md:min-h-[350px] lg:min-h-[424px]"
         >
           {loading ? (
             <p>Зареждане...</p>
@@ -45,20 +48,22 @@ export default function Pricing() {
             <p>Няма налични цени</p>
           ) : (
             prices.map((item) => (
-              <p key={item.id}>
+              <p key={item.id} className="text-center">
                 {item.service_name} {item.price} лв
               </p>
             ))
           )}
         </div>
-        <Image
-          src="/price-pic.svg"
-          alt="woman"
-          width={256}
-          height={256}
-          className=" md:block hidden"
-        />
+        <div className="mt-6 md:mt-0">
+          <Image
+            src="/price-pic.svg"
+            alt="woman"
+            width={256}
+            height={256}
+            className="md:block hidden"
+          />
+        </div>
       </div>
-    </>
+    </div>
   );
 }
