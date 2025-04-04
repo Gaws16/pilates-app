@@ -7,6 +7,7 @@ interface ScheduleItem {
   day_of_week: string;
   time_slot: string;
   class_name: string;
+  capacity: number;
 }
 
 const days = ["Понеделник", "Вторник", "Сряда", "Четвъртък", "Петък"];
@@ -33,6 +34,7 @@ export default function ScheduleManagement() {
     day_of_week: "",
     time_slot: "",
     class_name: "",
+    capacity: 20,
   });
 
   useEffect(() => {
@@ -64,7 +66,12 @@ export default function ScheduleManagement() {
       if (error) throw error;
 
       fetchSchedule();
-      setNewClass({ day_of_week: "", time_slot: "", class_name: "" });
+      setNewClass({
+        day_of_week: "",
+        time_slot: "",
+        class_name: "",
+        capacity: 20,
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     }
@@ -90,7 +97,7 @@ export default function ScheduleManagement() {
       )}
 
       <form onSubmit={handleAddClass} className="space-y-4">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Day
@@ -148,6 +155,27 @@ export default function ScheduleManagement() {
               className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-[#a17d60] focus:border-[#a17d60]"
             />
           </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Capacity
+            </label>
+            <input
+              type="number"
+              min="1"
+              max="100"
+              value={newClass.capacity}
+              onChange={(e) =>
+                setNewClass({
+                  ...newClass,
+                  capacity: parseInt(e.target.value) || 20,
+                })
+              }
+              required
+              placeholder="e.g., 20"
+              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-[#a17d60] focus:border-[#a17d60]"
+            />
+          </div>
         </div>
 
         <button
@@ -175,6 +203,9 @@ export default function ScheduleManagement() {
                   Class
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Capacity
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
@@ -190,6 +221,9 @@ export default function ScheduleManagement() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {item.class_name}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.capacity || 20}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button
