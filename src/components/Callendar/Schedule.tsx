@@ -8,6 +8,8 @@ interface ScheduleItem {
   day_of_week: string;
   time_slot: string;
   class_name: string;
+  capacity: number;
+  available_slots?: number;
 }
 
 // Update days to only include Monday to Friday
@@ -33,14 +35,45 @@ const Schedule: React.FC = () => {
 
   useEffect(() => {
     const fetchSchedule = async () => {
+      // Get classes from schedule table
       const { data, error } = await supabase
         .from("schedule")
         .select("*")
         .order("time_slot", { ascending: true });
 
-      if (!error && data) {
-        setSchedule(data);
+      if (error || !data) {
+        return;
       }
+
+      // Calculate available slots for each class
+      const scheduleWithSlots = await Promise.all(
+        data.map(async (item) => {
+          // Count confirmed bookings for this schedule item
+          const { count, error: countError } = await supabase
+            .from("bookings")
+            .select("*", { count: "exact", head: true })
+            .eq("schedule_id", item.id)
+            .not("status", "eq", "cancelled");
+
+          if (countError) {
+            return {
+              ...item,
+              available_slots: item.capacity || 20,
+            };
+          }
+
+          // Calculate available slots
+          const booked = count || 0;
+          const available = (item.capacity || 20) - booked;
+
+          return {
+            ...item,
+            available_slots: available > 0 ? available : 0,
+          };
+        })
+      );
+
+      setSchedule(scheduleWithSlots);
     };
 
     fetchSchedule();
@@ -99,6 +132,9 @@ const Schedule: React.FC = () => {
                         <div className="flex flex-col">
                           <span className="font-semibold text-xs md:text-sm">
                             {classItem.class_name}
+                          </span>
+                          <span className="text-xs text-gray-600">
+                            {classItem.available_slots} свободни места
                           </span>
                         </div>
                       )}

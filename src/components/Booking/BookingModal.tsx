@@ -8,6 +8,8 @@ interface ScheduleItem {
   day_of_week: string;
   time_slot: string;
   class_name: string;
+  capacity: number;
+  available_slots?: number;
 }
 
 interface BookingModalProps {
@@ -45,14 +47,55 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
   useEffect(() => {
     const fetchSchedule = async () => {
-      const { data, error } = await supabase
+      // Get classes from schedule table
+      const { data: scheduleData, error: scheduleError } = await supabase
         .from("schedule")
         .select("*")
         .order("day_of_week")
         .order("time_slot");
 
-      if (!error && data) {
-        setAvailableSlots(data);
+      if (scheduleError) {
+        console.error("Error fetching schedule:", scheduleError);
+        return;
+      }
+
+      // Get bookings count for each class
+      if (scheduleData && scheduleData.length > 0) {
+        // Calculate available slots for each schedule item
+        const scheduleWithSlots = await Promise.all(
+          scheduleData.map(async (item) => {
+            // Count confirmed bookings for this schedule item
+            const { count, error: countError } = await supabase
+              .from("bookings")
+              .select("*", { count: "exact", head: true })
+              .eq("schedule_id", item.id)
+              .not("status", "eq", "cancelled");
+
+            if (countError) {
+              console.error("Error counting bookings:", countError);
+              return {
+                ...item,
+                available_slots: item.capacity || 20,
+              };
+            }
+
+            // Calculate available slots
+            const booked = count || 0;
+            const available = (item.capacity || 20) - booked;
+
+            return {
+              ...item,
+              available_slots: available > 0 ? available : 0,
+            };
+          })
+        );
+
+        // Filter out classes with no available slots
+        const availableClasses = scheduleWithSlots.filter(
+          (item) => item.available_slots > 0
+        );
+
+        setAvailableSlots(availableClasses);
       }
     };
 
@@ -187,7 +230,8 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                   <option value="">Изберете ден и час</option>
                   {availableSlots.map((slot) => (
                     <option key={slot.id} value={slot.id}>
-                      {slot.day_of_week} - {slot.time_slot} - {slot.class_name}
+                      {slot.day_of_week} - {slot.time_slot} - {slot.class_name}{" "}
+                      (Свободни места: {slot.available_slots})
                     </option>
                   ))}
                 </select>
