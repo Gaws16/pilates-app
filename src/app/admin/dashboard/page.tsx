@@ -13,8 +13,8 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-8">
+    <div className="p-">
+      <div className="flex justify-between items-center mb-12">
         <h1 className="text-3xl font-bold text-[#a17d60]">Admin Dashboard</h1>
         <button
           onClick={handleSignOut}

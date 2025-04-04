@@ -32,20 +32,20 @@ export default function Rules() {
   return (
     <>
       <Title title="Правила" />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col gap-10">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col gap-10 items-center">
         <Image
           src="/rules-pic.svg"
           alt="rules"
           width={1000}
           height={600}
-          className="mt-5"
+          className="mt-5 hidden md:block max-w-full"
         />
-        <div className="space-y-4">
+        <div className="space-y-4 w-full max-w-[1000px]">
           {rules.map((rule) => (
             <RuleItem key={rule.id} rule={rule.content} />
           ))}
         </div>
       </div>
     </>
-  );
+ );
 }
